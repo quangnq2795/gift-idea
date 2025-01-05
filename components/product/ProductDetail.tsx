@@ -43,7 +43,6 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
             className="w-full aspect-video rounded-lg shadow-md"
             src={product.video}
             title="Product Video"
-            frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           ></iframe>

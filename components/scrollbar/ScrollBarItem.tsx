@@ -10,7 +10,7 @@ export interface ScrollBarItemProps {
 export const ScrollBarItem = ({ imgSrc, productId }: ScrollBarItemProps) => {
     return (
         <div className = "max-h-[400]">
-            <Link href={`/products/${productId}`}>
+            <Link href={`/product/${productId}`}>
                 <Image
                     width={200}
                     isZoomed

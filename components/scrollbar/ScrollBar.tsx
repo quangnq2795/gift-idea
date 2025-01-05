@@ -46,7 +46,7 @@ export default function ScrollBar() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch(`/api/items?page=${page}`, {
+            const response = await fetch(`/api/products?page=${page}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
