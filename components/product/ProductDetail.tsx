@@ -1,74 +1,116 @@
 import React, { useState } from "react";
-import {Image} from "@nextui-org/image";
+import { Image } from "@nextui-org/image";
 
 interface ProductDetailProps {
   product: {
     id: number;
-    name: string;
+    store_name: string;
+    product_name: string;
     description: string;
     price: number;
     images: { id: number; url: string; alt: string }[];
   };
 }
 
-export const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
-  const [selectedImage, setSelectedImage] = useState<string>(product.images[0].url); // Initialize with the first image
+const ImageGrid = ({ images }) => {
+  if (!images || images.length === 0) {
+    return <div className="text-gray-500">No images available.</div>;
+  }
 
-  return (
-    <div className="flex flex-col lg:flex-row items-center lg:items-start justify-center space-y-8 lg:space-y-0 lg:space-x-4 p-6">
-      <div className="w-full lg:w-2/5 flex justify-end">
-        <div className="w-full flex flex-col items-center space-y-6">
-          <div className="flex justify-center rounded-md p-4">
-            <Image
-              src={selectedImage}
-              alt="Selected product"
-              className="w-full object-contain"
-              isZoomed
-            />
-          </div>
+  const imageStyles = {
+    objectFit: "cover",
+    width: "100%",
+    height: "100%",
+  };
 
-          {/* Image Thumbnails */}
-          <div className="flex space-x-2">
-            {product.images.map((image) => (
-              <div
-                key={image.id}
-                className={`border rounded-md p-2 cursor-pointer hover:shadow-lg ${
-                  selectedImage === image.url ? "border-blue-500" : "border-none"
-                }`}
-                onClick={() => setSelectedImage(image.url)}
-              >
-                <Image
-                  src={image.url}
-                  alt={image.alt}
-                  width={40}
-                  height={40}
-                  className="object-cover"
-                />
-              </div>
-            ))}
+  if (images.length === 1) {
+    return <Image src={images[0].url} alt={images[0].alt} className="rounded-lg" style={imageStyles} />;
+  }
+
+  if (images.length === 2) {
+    return (
+      <div className="flex gap-2">
+        {images.map((image) => (
+          <div key={image.id} className="w-1/2 rounded-lg overflow-hidden">
+            <Image src={image.url} alt={image.alt} style={imageStyles} />
           </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (images.length === 3) {
+    return (
+      <div className="flex gap-2">
+        <div className="w-2/3 rounded-lg overflow-hidden">
+          <Image src={images[0].url} alt={images[0].alt} style={imageStyles} />
+        </div>
+        <div className="w-1/3 flex flex-col gap-2">
+          {images.slice(1).map((image) => (
+            <div key={image.id} className="h-1/2 rounded-lg overflow-hidden">
+              <Image src={image.url} alt={image.alt} style={imageStyles} />
+            </div>
+          ))}
         </div>
       </div>
+    );
+  }
 
-      <div className="w-full lg:w-2/5 flex justify-start">
-        <div className="w-full flex flex-col space-y-6 p-4">
-          {/* Product Title and Price */}
-          <div>
-            <h1 className="text-3xl font-bold text-gray-800 break-words line-clamp-2">{product.name}</h1>
-            <p className="text-lg font-semibold text-blue-600 mt-2">
-              ${product.price.toFixed(2)} USD
-            </p>
+  const gridCols = images.length === 4 ? 2 : 3;
+  return (
+    <div className={`grid grid-cols-${gridCols} gap-2`}>
+      {images.map((image) => (
+        <div key={image.id} className="rounded-lg overflow-hidden">
+          <Image src={image.url} alt={image.alt} style={imageStyles} />
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const Description: React.FC<{ description: string }> = ({ description }) => {
+  const [expanded, setExpanded] = useState(false);
+  const maxLines = 8;
+
+  const lines = description.split('\n');
+  const isTruncated = lines.length > maxLines;
+
+  const displayedDescription = expanded
+    ? description
+    : isTruncated
+    ? lines.slice(0, maxLines).join('\n') + '...'
+    : description;
+
+  return (
+    <div>
+      <p className="whitespace-pre-wrap">{displayedDescription}</p>
+      {isTruncated && (
+        <button onClick={() => setExpanded(!expanded)} className="text-blue-500 hover:underline">
+          {expanded ? 'Show Less' : 'Show More'}
+        </button>
+      )}
+    </div>
+  );
+};
+
+export const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
+  return (
+    <div className="flex items-center justify-center p-4">
+      <div className="flex flex-col w-full max-w-2xl border rounded-md shadow-lg p-6 bg-white">
+        <div className="flex flex-col space-y-4">
+          <div className="flex flex-row items-center">
+            <h1 className="text-xl font-bold text-gray-800 break-words line-clamp-2">
+              {product.store_name}
+            </h1>
           </div>
-
-          {/* Description */}
           <div>
-            <p className="text-gray-600 break-words">{product.description}</p>
+            <p className="font-semibold text-lg">{product.product_name}</p>
+            <Description description={product.description} />
+            <p className="mt-2 text-xl font-bold text-gray-900">${product.price.toFixed(2)}</p>
           </div>
-
-          {/* Add to Cart Button */}
-          <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-md shadow-md transition duration-200">
-            Buy on Shopee
-          </button>
+        </div>
+        <div className="mt-6">
+          <ImageGrid images={product.images} />
         </div>
       </div>
     </div>
