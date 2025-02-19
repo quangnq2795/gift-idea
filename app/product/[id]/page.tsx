@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ProductDetail } from "@/components/product/ProductDetail";
+import { ProductDetail } from "@/components/product/basic_temp/ProductDetail";
+import ScrollBar from "@/components/scrollbar/ScrollBar";
 import { use } from "react";
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -35,6 +36,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   return (
     <div>
       <ProductDetail product={productData}></ProductDetail>
+      <ScrollBar></ScrollBar>
     </div>
   );
 }

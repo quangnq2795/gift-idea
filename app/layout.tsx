@@ -4,7 +4,6 @@ import { Link } from "@nextui-org/link";
 import clsx from "clsx";
 
 import { Providers } from "./providers";
-
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/narbar/navbar";
@@ -14,10 +13,7 @@ export const metadata: Metadata = {
     default: siteConfig.name,
     template: `%s - ${siteConfig.name}`,
   },
-  description: siteConfig.description,
-  icons: {
-    icon: "/favicon.ico",
-  },
+  description: siteConfig.description
 };
 
 export const viewport: Viewport = {
@@ -38,7 +34,7 @@ export default function RootLayout({
       <body
         className={clsx(
           "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable,
+          fontSans.className,
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
