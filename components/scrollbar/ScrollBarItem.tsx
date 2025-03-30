@@ -1,5 +1,4 @@
-import { Image } from "@nextui-org/image";
-import NextImage from "next/image";
+import { Image } from "@heroui/image";
 import Link from "next/link";
 
 export interface ScrollBarItemProps {

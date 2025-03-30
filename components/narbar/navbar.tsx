@@ -1,15 +1,27 @@
+'use client'
+
 import {
   Navbar as NextUINavbar,
   NavbarContent,
   NavbarBrand,
-} from "@nextui-org/navbar";
-
+} from "@heroui/navbar";
+// import { useUser } from "@/components/hooks/useUser";
 import NextLink from "next/link";
 import { Logo, StoreIcon } from "@/components/icons";
 import { NarBarSeachInput } from "./narbar-search/narbar-search-input";
 import { NavbarUser } from "./narbar-user/narbar-user";
 
 export const Navbar = () => {
+  //const { userId, isLoading } = useUser();
+  const { userId, isLoading } = {userId:"11111", isLoading:"ok"}
+
+  const handleStoreClick = (e: React.MouseEvent) => {
+    // if (isLoading || !userId) {
+    //   e.preventDefault(); // Prevent navigation
+    //   alert("You need to log in to access the store.");
+    // }
+  };
+
   return (
     <div>
       <div>
@@ -24,7 +36,7 @@ export const Navbar = () => {
           <NavbarContent className="flex flex-grow">
             <div className="flex w-full gap-6">
               <div className="flex justify-end items-center w-[20%]">
-                <NextLink href="/">
+                <NextLink href={`/store/${userId}`} onClick={handleStoreClick}>
                   <StoreIcon />
                 </NextLink>
               </div>
@@ -52,6 +64,5 @@ export const Navbar = () => {
         </NextUINavbar>
       </div>
     </div>
-
   );
 };

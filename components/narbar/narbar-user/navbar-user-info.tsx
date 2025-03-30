@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Avatar } from "@nextui-org/avatar";
-import { Listbox, ListboxItem } from "@nextui-org/listbox";
+import { Avatar } from "@heroui/avatar";
+import { Listbox, ListboxItem } from "@heroui/listbox";
 import { color } from "framer-motion";
 
 export const NavbarUserInfo = () => {

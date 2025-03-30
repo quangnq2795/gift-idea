@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Input } from "@nextui-org/input";
+import { Input } from "@heroui/input";
 import { SearchIcon } from "@/components/icons";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import { useRouter } from "next/navigation";
 import  NarbarSearchSuggestionDefault from "./narbar-search-suggest-default";
 import  NarbarSearchSuggestionList from "./narbar-search-suggestion-list";

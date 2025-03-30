@@ -3,19 +3,30 @@
 import { useEffect, useState } from "react";
 import { ProductDetail } from "@/components/product/basic_temp/ProductDetail";
 import ScrollBar from "@/components/scrollbar/ScrollBar";
-import { use } from "react";
+import { useParams } from "next/navigation";
+import { ProductViewMode, useViewMode } from "@/components/product/ProductViewMode";
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  // Unwrap `params` using React's `use` hook
-  const { id } = use(params);
+  const { id } = useParams() as { id: string };
+  const [productData, setProductData] = useState<any | null>(null);
 
+  return (
+    <ProductViewMode>
+      <ProductDetailPageContent id={id} />
+    </ProductViewMode>
+  );
+}
+
+function ProductDetailPageContent({ id }: { id: string }) {
+  const { viewMode, setViewMode } = useViewMode();
   const [productData, setProductData] = useState<any | null>(null);
 
   useEffect(() => {
-    // Fetch product data from the API based on ID
+    setViewMode("normal");
+
     async function fetchProductData() {
       try {
-        const response = await fetch(`/api/product/${id}`);
+        const response = await fetch(`/api/product?id=${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch product data");
         }
@@ -27,7 +38,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     }
 
     fetchProductData();
-  }, [id]);
+  }, [id, setViewMode]);
 
   if (!productData) {
     return <div>Loading...</div>;
@@ -35,8 +46,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
   return (
     <div>
-      <ProductDetail product={productData}></ProductDetail>
-      <ScrollBar></ScrollBar>
+      <ProductDetail product={productData} />
+      <ScrollBar />
     </div>
   );
 }

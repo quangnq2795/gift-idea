@@ -1,7 +1,7 @@
 "use client";
 
-import { Card, CardBody, CardFooter } from "@nextui-org/card";
-import { Image } from "@nextui-org/image";
+import { Card, CardBody, CardFooter } from "@heroui/card";
+import { Image } from "@heroui/image";
 import useCardList from "./useCardList";
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
