@@ -1,7 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['i.pinimg.com'], // Add the external hostname here
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'i.pinimg.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'media.istockphoto.com',
+            },
+        ],
     },
 };
 

@@ -57,7 +57,8 @@ export const StoreProductItem = ({ imgSrc, productId, storeId }: StoreProductIte
         onClick={handleOpen}
       />
       {/* Modal displaying product details */}
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} size="3xl" scrollBehavior="outside" className="max-h-[90vh] overflow-y-auto">
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} size="3xl" scrollBehavior="outside"
+         className="max-h-[90vh] overflow-y-auto">
         <ModalContent>
           {(onClose) => (
             <>
