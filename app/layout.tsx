@@ -16,7 +16,7 @@ export default function RootLayout({
     <html suppressHydrationWarning lang="en">
       <head />
       <body className={clsx("min-h-screen bg-background font-sans antialiased",fontSans.className,)}>
-        <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
+        {/* <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}> */}
           <div className="relative flex flex-col h-screen">
             <FallingEffect type="heart" />
             <Navbar />
@@ -35,7 +35,7 @@ export default function RootLayout({
               </Link>
             </footer>
           </div>
-        </Providers>
+        {/* </Providers> */}
       </body>
     </html>
   );

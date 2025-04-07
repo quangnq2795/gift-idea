@@ -59,20 +59,31 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
           {/* Social Links (Shopee & Facebook) */}
           {isEditMode ? (
             <div className="flex flex-col space-y-2">
-              <input
-                type="text"
-                value={shopeeLink}
-                onChange={(e) => setShopeeLink(e.target.value)}
-                placeholder="Shopee Link"
-                className="border border-gray-300 p-2 rounded-md w-full"
-              />
-              <input
-                type="text"
-                value={facebookLink}
-                onChange={(e) => setFacebookLink(e.target.value)}
-                placeholder="Facebook Link"
-                className="border border-gray-300 p-2 rounded-md w-full"
-              />
+              <div className="flex flex-col space-y-2">
+                <p className="text-sm font-medium text-gray-700">
+                  Shopee Link
+                </p>
+                <input
+                  type="text"
+                  value={shopeeLink}
+                  onChange={(e) => setShopeeLink(e.target.value)}
+                  placeholder="Shopee Link"
+                  className="border border-gray-300 p-2 rounded-md w-full"
+                />
+              </div>
+
+              <div className="flex flex-col space-y-2">
+                <p className="text-sm font-medium text-gray-700">
+                  Facebook Link
+                </p>
+                <input
+                  type="text"
+                  value={facebookLink}
+                  onChange={(e) => setFacebookLink(e.target.value)}
+                  placeholder="Shopee Link"
+                  className="border border-gray-300 p-2 rounded-md w-full"
+                />
+              </div>              
             </div>
           ) : (
             (product.shopee || product.facebook) && (
@@ -100,11 +111,6 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
               </div>
             )
           )}
-
-          {/* Price */}
-          <p className="mt-2 text-sm font-bold text-gray-900">
-            ${product.price.toFixed(2)}
-          </p>
         </div>
 
         {/* Images */}
