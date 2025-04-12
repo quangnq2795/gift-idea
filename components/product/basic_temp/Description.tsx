@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useViewMode } from "@/components/product/ProductViewMode";
+import { useProductViewMode } from "@/components/product/ProductViewModeContext";
 
 interface DescriptionProps {
   description: string;
 }
 
 export const Description: React.FC<DescriptionProps> = ({ description }) => {
-  const { viewMode } = useViewMode();
+  const { viewMode } = useProductViewMode();
   const isEditMode = viewMode === "edit";
 
   const [expanded, setExpanded] = useState(false);

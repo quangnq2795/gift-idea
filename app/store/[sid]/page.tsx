@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useParams } from "next/navigation";
 import Store from "@/components/store/Store";
-import { ProductViewMode, useViewMode } from "@/components/product/ProductViewMode";
+import { ProductViewModeProvider, useProductViewMode } from "@/components/product/ProductViewModeContext";
 
 export default function StorePage() {
   const { sid } = useParams(); // Get storeId from URL
@@ -13,14 +13,14 @@ export default function StorePage() {
   }
 
   return (
-    <ProductViewMode>
+    <ProductViewModeProvider>
       <StorePageContent storeId={sid} />
-    </ProductViewMode>
+    </ProductViewModeProvider>
   );
 }
 
 function StorePageContent({ storeId }: { storeId: string }) {
-  const { setViewMode } = useViewMode();
+  const { setViewMode } = useProductViewMode();
 
   useEffect(() => {
     // Set view mode to "normal" when the component mounts

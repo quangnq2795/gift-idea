@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { ProductImages } from "@/types";
-import { AddImageIcon, RemoveImageIcon } from "@/components/icons"; // Import your custom icons
+import { AddImageIcon, RemoveImageIcon } from "@/components/icons";
+import { useProductInfo } from "@/components/product/ProductInfoContext";
 
-export const ImageGridEdit: React.FC<ProductImages> = ({ images: initialImages }) => {
+export const ImageGridEdit: React.FC = () => {
   const maxImages = 4;
-  const [images, setImages] = useState(initialImages);
+
+  // Access product info and updater from context
+  const { product, updateProduct } = useProductInfo();
+  const [images, setImages] = useState(product.images || []);
 
   const handleRemoveImage = (id: string) => {
-    setImages(images.filter((image) => image.id !== id));
+    const updatedImages = images.filter((image) => image.id !== id);
+    setImages(updatedImages);
+    updateProduct({ images: updatedImages }); // Update product info in context
   };
 
   const handleAddImage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +30,9 @@ export const ImageGridEdit: React.FC<ProductImages> = ({ images: initialImages }
       file,
     };
 
-    setImages((prevImages: any[]) => [...prevImages, newImage].slice(0, maxImages));
+    const updatedImages = [...images, newImage].slice(0, maxImages);
+    setImages(updatedImages);
+    updateProduct({ images: updatedImages }); // Update product info in context
   };
 
   return (
@@ -49,7 +57,7 @@ export const ImageGridEdit: React.FC<ProductImages> = ({ images: initialImages }
 
       {/* Upload Button */}
       {images.length < maxImages && (
-        <label className="flex items-center justify-center border border-dashed rounded-md w-full h-[400] bg-gray-100 hover:bg-gray-200 transition cursor-pointer">
+        <label className="flex items-center justify-center border border-dashed rounded-md w-full h-[400px] bg-gray-100 hover:bg-gray-200 transition cursor-pointer">
           <AddImageIcon className="w-10 h-10 text-gray-500" />
           <input type="file" accept="image/*" className="hidden" onChange={handleAddImage} />
         </label>

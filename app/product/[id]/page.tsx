@@ -4,21 +4,21 @@ import { useEffect, useState } from "react";
 import { ProductDetail } from "@/components/product/basic_temp/ProductDetail";
 import ScrollBar from "@/components/scrollbar/ScrollBar";
 import { useParams } from "next/navigation";
-import { ProductViewMode, useViewMode } from "@/components/product/ProductViewMode";
+import { ProductViewModeProvider, useProductViewMode } from "@/components/product/ProductViewModeContext";
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = useParams() as { id: string };
   const [productData, setProductData] = useState<any | null>(null);
 
   return (
-    <ProductViewMode>
+    <ProductViewModeProvider>
       <ProductDetailPageContent id={id} />
-    </ProductViewMode>
+    </ProductViewModeProvider>
   );
 }
 
 function ProductDetailPageContent({ id }: { id: string }) {
-  const { viewMode, setViewMode } = useViewMode();
+  const { viewMode, setViewMode } = useProductViewMode();
   const [productData, setProductData] = useState<any | null>(null);
 
   useEffect(() => {

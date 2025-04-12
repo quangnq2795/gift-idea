@@ -4,10 +4,10 @@ import { ImageGrid3 } from "./ImageGrid3";
 import { ImageGrid4 } from "./ImageGrid4";
 import { ImageGridEdit } from "./ImageGridEdit";
 import { ProductImages } from "@/types";
-import { useViewMode } from "@/components/product/ProductViewMode";
+import { useProductViewMode } from "@/components/product/ProductViewModeContext";
 
 export const ImageGrid: React.FC<ProductImages> = ({ images }) => {
-  const { viewMode } = useViewMode();
+  const { viewMode } = useProductViewMode();
   const isEditMode = viewMode === "edit";
 
   if (isEditMode) {

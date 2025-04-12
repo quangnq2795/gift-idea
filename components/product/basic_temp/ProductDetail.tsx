@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Avatar } from "@heroui/react";
 import { ImageGrid } from "./ImageGrid/ImageGrid";
 import { Description } from "./Description";
-import { useViewMode } from "@/components/product/ProductViewMode";
+import { useProductViewMode } from "@/components/product/ProductViewModeContext";
 
 export interface ProductDetailProps {
   product: {
@@ -18,7 +18,7 @@ export interface ProductDetailProps {
 }
 
 export const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
-  const { viewMode } = useViewMode();
+  const { viewMode } = useProductViewMode();
   const isEditMode = viewMode === "edit";
 
   const [productName, setProductName] = useState(product.productName);
