@@ -1,11 +1,13 @@
 import ScrollBar from "@/components/scrollbar/ScrollBar";
-import { AdPanelT } from "@/components/ads/AdPanelT";
-
+import { AdPanelHomeMain } from "@/components/ads/AdPanelHomeMain";
+import AdPanelHomeSub from "@/components/ads/AdPanelHomeSub";
 export default function Home() {
   return (
     <div>
-      <AdPanelT />
-      <div className="my-8" />
+      <AdPanelHomeMain />
+      <div className="my-4" />
+      <AdPanelHomeSub />
+      <div className="my-4" />
       <ScrollBar />
     </div>
   );
