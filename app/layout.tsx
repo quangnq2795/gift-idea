@@ -18,9 +18,9 @@ export default function RootLayout({
       <body className={clsx("min-h-screen bg-background font-sans antialiased",fontSans.className,)}>
         {/* <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}> */}
           <div className="relative flex flex-col h-screen">
-            <FallingEffect type="heart" />
+            <FallingEffect type="snow" />
             <Navbar />
-            <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+            <main className="container mx-auto max-w-7xl pt-8 px-6 flex-grow">
               {children}
             </main>
             <footer className="w-full flex items-center justify-center py-3">
