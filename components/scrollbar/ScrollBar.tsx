@@ -18,7 +18,7 @@ export default function ScrollBar() {
         } else if (width < 768) { // Medium screens
             setNumColumns(5);
         } else { // Large screens
-            setNumColumns(7);
+            setNumColumns(6);
         }
     };
 
@@ -81,11 +81,11 @@ export default function ScrollBar() {
             hasMore={hasMore}
             loader={<h4>Loading...</h4>}
         >
-            <div className="flex justify-between gap-5">
+            <div className="flex justify-between gap-4">
                 {columns.map((column, columnIndex) => (
-                    <div key={columnIndex}>
+                    <div key={columnIndex} className="flex flex-col gap-4">
                         {column.map((item, index) => (
-                            <div key={index} className="pb-3">
+                            <div key={index}>
                                 <ScrollBarItem imgSrc={item.imgSrc} productId={item.productId} />
                             </div>
                         ))}

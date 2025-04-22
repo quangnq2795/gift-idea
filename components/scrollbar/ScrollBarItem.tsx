@@ -8,15 +8,14 @@ export interface ScrollBarItemProps {
 
 export const ScrollBarItem = ({ imgSrc, productId }: ScrollBarItemProps) => {
     return (
-        <div className = "max-h-[400]">
-            <Link href={`/product/${productId}`}>
-                <Image
-                    width={200}
-                    isZoomed
-                    src={imgSrc}
-                    alt={`Product ${productId}`}
-                />
-            </Link>
-        </div>
+        <Link href={`/product/${productId}`}>
+            <Image
+                width={200}
+                isZoomed
+                src={imgSrc}
+                alt={`Product ${productId}`}
+                className="max-h-[400]"
+            />
+        </Link>
     );
 };

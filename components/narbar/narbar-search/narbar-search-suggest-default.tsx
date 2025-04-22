@@ -1,26 +1,42 @@
 "use client";
 
+import { useEffect, useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardBody, CardFooter } from "@heroui/card";
 import { Image } from "@heroui/image";
-import useCardList from "./useCardList";
-import { useCallback } from "react";
-import { useRouter } from "next/navigation";
+
+interface NarBarSearchCardList {
+  title: string;
+  image: string;
+}
 
 export default function NarbarSearchSuggestionDefault() {
   const router = useRouter();
-  const cardList = useCardList();
+  const [cardList, setCardList] = useState<NarBarSearchCardList[]>([]);
 
   const smallScreenCount = 6;
   const largeScreenCount = 10;
 
-  const handleCardClick = useCallback(
-    (title: string) => {
-      router.push(`/search?q=${encodeURIComponent(title)}`);
-    },
-    [router]
-  );
+  const handleCardClick = (title: string) => {
+    console.log("Navigating to:", `/search?q=${encodeURIComponent(title)}`);
+    router.push(`/search?q=${encodeURIComponent(title)}`);
+  };
 
-  const renderCard = (item: { title: string; image: string }, index: number) => (
+  useEffect(() => {
+    const fetchCardList = async () => {
+      try {
+        const response = await fetch("/api/search/card-list");
+        const data = await response.json();
+        setCardList(data);
+      } catch (error) {
+        console.error("Failed to fetch card list:", error);
+      }
+    };
+
+    fetchCardList();
+  }, []);
+
+  const renderCard = (item: NarBarSearchCardList, index: number) => (
     <div className="relative" key={index}>
       <Card
         shadow="sm"
@@ -34,7 +50,7 @@ export default function NarbarSearchSuggestionDefault() {
             radius="lg"
             width="100%"
             alt={item.title}
-            className="w-full object-cover h-[60px] md:h-[100px] "
+            className="w-full object-cover h-[100px]"
             src={item.image}
             loading="lazy"
           />
