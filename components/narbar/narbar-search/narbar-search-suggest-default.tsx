@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardBody, CardFooter } from "@heroui/card";
 import { Image } from "@heroui/image";
@@ -10,7 +10,13 @@ interface NarBarSearchCardList {
   image: string;
 }
 
-export default function NarbarSearchSuggestionDefault() {
+interface NarbarSearchSuggestionDefaultProps {
+  onCardClick?: (title: string) => void;
+}
+
+export default function NarbarSearchSuggestionDefault({
+  onCardClick,
+}: NarbarSearchSuggestionDefaultProps) {
   const router = useRouter();
   const [cardList, setCardList] = useState<NarBarSearchCardList[]>([]);
 
@@ -18,6 +24,9 @@ export default function NarbarSearchSuggestionDefault() {
   const largeScreenCount = 10;
 
   const handleCardClick = (title: string) => {
+    if (onCardClick) {
+      onCardClick(title);
+    }
     console.log("Navigating to:", `/search?q=${encodeURIComponent(title)}`);
     router.push(`/search?q=${encodeURIComponent(title)}`);
   };

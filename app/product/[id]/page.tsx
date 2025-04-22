@@ -20,6 +20,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 function ProductDetailPageContent({ id }: { id: string }) {
   const { viewMode, setViewMode } = useProductViewMode();
   const [productData, setProductData] = useState<any | null>(null);
+  const [showScrollBar, setShowScrollBar] = useState(false);
 
   useEffect(() => {
     setViewMode("normal");
@@ -40,6 +41,13 @@ function ProductDetailPageContent({ id }: { id: string }) {
     fetchProductData();
   }, [id, setViewMode]);
 
+  useEffect(() => {
+    if (productData) {
+      const timer = setTimeout(() => setShowScrollBar(true), 0);
+      return () => clearTimeout(timer);
+    }
+  }, [productData]);
+
   if (!productData) {
     return <div>Loading...</div>;
   }
@@ -47,7 +55,7 @@ function ProductDetailPageContent({ id }: { id: string }) {
   return (
     <div>
       <ProductDetail product={productData} />
-      <ScrollBar />
+      {showScrollBar && <ScrollBar />}
     </div>
   );
 }

@@ -5,20 +5,20 @@ import { Input } from "@heroui/input";
 import { SearchIcon } from "@/components/icons";
 import { Button } from "@heroui/button";
 import { useRouter } from "next/navigation";
-import  NarbarSearchSuggestionDefault from "./narbar-search-suggest-default";
-import  NarbarSearchSuggestionList from "./narbar-search-suggestion-list";
+import NarbarSearchSuggestionDefault from "./narbar-search-suggest-default";
+import NarbarSearchSuggestionList from "./narbar-search-suggestion-list";
 import { useSearchSuggestions } from "./useSearchSuggestion";
 
 export const NarBarSeachInput = () => {
   const [isSearchIconHovered, setSearchIconHovered] = useState(false);
   const [isSuggestionVisible, setSuggestionVisible] = useState(false);
   const [searchString, setSearchString] = useState("");
-  const [debouncedSearchString, setDebouncedSearchString] = useState(searchString); // State for debounced value
+  const [debouncedSearchString, setDebouncedSearchString] = useState(searchString);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const suggestionPanelRef = useRef<HTMLDivElement | null>(null); // Ref for suggestion panel
+  const suggestionPanelRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
 
-  const { searchSuggestionsList, loading, error } = useSearchSuggestions(debouncedSearchString); // Use the debounced value for fetching suggestions
+  const { searchSuggestionsList, loading, error } = useSearchSuggestions(debouncedSearchString);
 
   const onFocus = () => {
     setSuggestionVisible(true);
@@ -29,10 +29,9 @@ export const NarBarSeachInput = () => {
   };
 
   const onSearch = () => {
-    if (searchString.trim() === "") {
-      return;
-    }
+    if (searchString.trim() === "") return;
     router.push(`/search?q=${encodeURIComponent(searchString)}`);
+    setSuggestionVisible(false);
   };
 
   useEffect(() => {
@@ -40,12 +39,9 @@ export const NarBarSeachInput = () => {
       setDebouncedSearchString(searchString);
     }, 200);
 
-    return () => {
-      clearTimeout(timer);
-    };
+    return () => clearTimeout(timer);
   }, [searchString]);
 
-  // Function to hide suggestion panel when clicking outside
   const handleClickOutside = (event: MouseEvent) => {
     if (
       inputRef.current &&
@@ -59,19 +55,32 @@ export const NarBarSeachInput = () => {
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const handleSuggestionClick = (text: string) => {
+    setSearchString(text);
+    setSuggestionVisible(false);
+    router.push(`/search?q=${encodeURIComponent(text)}`);
+  };
 
   const renderSuggestions = () => {
     if (loading) return <p>Loading suggestions...</p>;
     if (error) return <p>{error}</p>;
 
     if (debouncedSearchString.trim() === "") {
-      return <NarbarSearchSuggestionDefault />;
+      return (
+        <NarbarSearchSuggestionDefault
+          onCardClick={handleSuggestionClick}
+        />
+      );
     } else {
-      return <NarbarSearchSuggestionList searchSuggest={searchSuggestionsList} />;
+      return (
+        <NarbarSearchSuggestionList
+          searchSuggest={searchSuggestionsList}
+          onSuggestClick={handleSuggestionClick}
+        />
+      );
     }
   };
 
@@ -102,12 +111,13 @@ export const NarBarSeachInput = () => {
         placeholder="Search..."
         baseRef={inputRef}
         onFocus={onFocus}
-        onValueChange={(value) => onValueChange(value)}
+        onValueChange={onValueChange}
+        value={searchString}
       />
 
       {isSuggestionVisible && (
         <div
-          ref={suggestionPanelRef} // Set the suggestionPanelRef for the panel
+          ref={suggestionPanelRef}
           className="absolute top-full mt-2 bg-white shadow-lg rounded-lg z-10 w-full"
         >
           {renderSuggestions()}
