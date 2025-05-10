@@ -23,7 +23,7 @@ export default function RootLayout({
         )}
       >
         {/* Fixed Background image wrapper */}
-        <div className="fixed inset-0 -z-10 h-screen w-screen">
+        {/* <div className="fixed inset-0 -z-10 h-screen w-screen">
           <Image
             src="/background.png"
             alt="Background"
@@ -31,7 +31,7 @@ export default function RootLayout({
             className="object-cover"
             priority
           />
-        </div>
+        </div> */}
 
         {/* Content overlay */}
         <div className="relative flex flex-col min-h-screen">
