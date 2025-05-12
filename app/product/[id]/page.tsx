@@ -8,7 +8,6 @@ import { ProductViewModeProvider, useProductViewMode } from "@/components/produc
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = useParams() as { id: string };
-  const [productData, setProductData] = useState<any | null>(null);
 
   return (
     <ProductViewModeProvider>

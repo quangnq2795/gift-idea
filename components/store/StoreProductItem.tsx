@@ -11,6 +11,7 @@ import {
 import { Image } from "@heroui/image";
 import { useRouter } from "next/navigation"; // Import useRouter
 import { ProductDetail } from "../product/basic_temp/ProductDetail";
+import { EditIcon, CloseIcon } from '@/components/icons';
 
 interface StoreProductItemProps {
   imgSrc: string;
@@ -57,8 +58,7 @@ export const StoreProductItem = ({ imgSrc, productId, storeId }: StoreProductIte
         onClick={handleOpen}
       />
       {/* Modal displaying product details */}
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} size="3xl" scrollBehavior="outside"
-         className="max-h-[90vh] overflow-y-auto">
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} size="3xl" scrollBehavior="outside">
         <ModalContent>
           {(onClose) => (
             <>
@@ -74,10 +74,20 @@ export const StoreProductItem = ({ imgSrc, productId, storeId }: StoreProductIte
                 )}
               </ModalBody>
               <ModalFooter className="p-2">
-                <Button color="primary" variant="solid" onPress={handleEdit}>
+                <Button 
+                  color="primary" 
+                  variant="solid" 
+                  onPress={handleEdit}
+                  startContent={<EditIcon className="w-4 h-4" />}
+                >
                   Edit
                 </Button>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button 
+                  color="danger" 
+                  variant="light" 
+                  onPress={onClose}
+                  startContent={<CloseIcon className="w-4 h-4" />}
+                >
                   Close
                 </Button>
               </ModalFooter>

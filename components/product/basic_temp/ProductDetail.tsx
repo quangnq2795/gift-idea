@@ -3,10 +3,13 @@ import { Avatar } from "@heroui/react";
 import { ImageGrid } from "./ImageGrid/ImageGrid";
 import { Description } from "./Description";
 import { useProductViewMode } from "@/components/product/ProductViewModeContext";
+import Link from "next/link";
+import { ShopeeIcon, FacebookIcon } from "@/components/icons";
 
 export interface ProductDetailProps {
   product: {
     id: number;
+    storeId: string;
     storeName: string;
     productName: string;
     description: string;
@@ -36,9 +39,11 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
               color="primary"
               src="https://i.pravatar.cc/150?u=a04258a2462d826712d"
             />
-            <h1 className="text-xl font-bold text-gray-800 truncate">
-              {product.storeName}
-            </h1>
+            <Link href={`/store/${product.storeId}`}>
+              <h1 className="text-xl font-bold text-gray-800 truncate cursor-pointer hover:underline">
+                {product.storeName}
+              </h1>
+            </Link>
           </div>
 
           {/* Product Name (Editable in Edit Mode) */}
@@ -63,39 +68,46 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
                 <p className="text-sm font-medium text-gray-700">
                   Shopee Link
                 </p>
-                <input
-                  type="text"
-                  value={shopeeLink}
-                  onChange={(e) => setShopeeLink(e.target.value)}
-                  placeholder="Shopee Link"
-                  className="border border-gray-300 p-2 rounded-md w-full"
-                />
+                <div className="relative">
+                  <ShopeeIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-500 w-5 h-5" />
+                  <input
+                    type="text"
+                    value={shopeeLink}
+                    onChange={(e) => setShopeeLink(e.target.value)}
+                    placeholder="Enter Shopee Link"
+                    className="pl-10 border border-gray-300 p-2 rounded-md w-full focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  />
+                </div>
               </div>
 
               <div className="flex flex-col space-y-2">
                 <p className="text-sm font-medium text-gray-700">
                   Facebook Link
                 </p>
-                <input
-                  type="text"
-                  value={facebookLink}
-                  onChange={(e) => setFacebookLink(e.target.value)}
-                  placeholder="Shopee Link"
-                  className="border border-gray-300 p-2 rounded-md w-full"
-                />
+                <div className="relative">
+                  <FacebookIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-600 w-5 h-5" />
+                  <input
+                    type="text"
+                    value={facebookLink}
+                    onChange={(e) => setFacebookLink(e.target.value)}
+                    placeholder="Enter Facebook Link"
+                    className="pl-10 border border-gray-300 p-2 rounded-md w-full focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                  />
+                </div>
               </div>              
             </div>
           ) : (
             (product.shopee || product.facebook) && (
-              <div className="flex space-x-2">
+              <div className="flex space-x-4">
                 {product.shopee && (
                   <a
                     href={product.shopee}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-4 py-2 bg-orange-500 text-white rounded-md text-sm font-medium hover:bg-orange-600 transition"
+                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-md text-sm font-medium hover:from-orange-600 hover:to-orange-700 transition-all transform hover:scale-105 shadow-md"
                   >
-                    🛒 Buy on Shopee
+                    <ShopeeIcon className="w-5 h-5" />
+                    <span>Buy on Shopee</span>
                   </a>
                 )}
                 {product.facebook && (
@@ -103,9 +115,10 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
                     href={product.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 transition"
+                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-md text-sm font-medium hover:from-blue-700 hover:to-blue-800 transition-all transform hover:scale-105 shadow-md"
                   >
-                    🔵 View on Facebook
+                    <FacebookIcon className="w-5 h-5" />
+                    <span>View on Facebook</span>
                   </a>
                 )}
               </div>

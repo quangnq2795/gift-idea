@@ -5,6 +5,7 @@ export async function GET() {
     // Product Data
     const product = {
       id: 1,
+      storeId: "123",
       storeName: "Cửa hàng tiện lợi của tôi",
       productName: "Trà sen Hà Tĩnh",
       description: `🧧 TẾT TẶNG TRÀ - MÓN QUÀ SỨC KHỎE VÔ GIÁ
