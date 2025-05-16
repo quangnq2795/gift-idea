@@ -1,67 +1,60 @@
-import React, { useState } from "react";
+import React, { memo } from "react";
 import Image from "next/image";
-import { ProductImages } from "@/types";
 import { AddImageIcon, RemoveImageIcon } from "@/components/icons";
-import { useProductInfo } from "@/components/product/ProductInfoContext";
 
-export const ImageGridEdit: React.FC = () => {
-  const maxImages = 4;
+interface ImageGridEditProps {
+  images: { id: number; url: string; alt: string }[];
+  maxImages: number;
+  onRemoveImage: (id: number) => void;
+  onAddImage: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
-  // Access product info and updater from context
-  const { product, updateProduct } = useProductInfo();
-  const [images, setImages] = useState(product.images || []);
-
-  const handleRemoveImage = (id: string) => {
-    const updatedImages = images.filter((image) => image.id !== id);
-    setImages(updatedImages);
-    updateProduct({ images: updatedImages }); // Update product info in context
-  };
-
-  const handleAddImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.files) return;
-
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const newImage = {
-      id: `${Date.now()}`,
-      url: URL.createObjectURL(file),
-      alt: "Uploaded image",
-      file,
-    };
-
-    const updatedImages = [...images, newImage].slice(0, maxImages);
-    setImages(updatedImages);
-    updateProduct({ images: updatedImages }); // Update product info in context
-  };
-
+export const ImageGridEdit: React.FC<ImageGridEditProps> = memo(function ImageGridEdit({
+  images,
+  maxImages,
+  onRemoveImage,
+  onAddImage,
+}) {
   return (
-    <div className="grid grid-cols-2 gap-2 p-2">
+    <div className="grid grid-cols-2 gap-4">
       {images.map((image) => (
-        <div key={image.id} className="relative group overflow-hidden h-[400px]">
+        <div 
+          key={image.id} 
+          className="relative aspect-square group overflow-hidden rounded-lg shadow-md"
+        >
           <Image
             src={image.url}
             alt={image.alt}
             fill
-            className="object-cover cursor-pointer"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority={true}
+            className="object-cover"
+            unoptimized={image.url.startsWith('blob:')}
           />
-          {/* Remove Button */}
-          <button
-            className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
-            onClick={() => handleRemoveImage(image.id)}
-          >
-            <RemoveImageIcon />
-          </button>
+          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-200">
+            <button
+              onClick={() => onRemoveImage(image.id)}
+              className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+              aria-label="Remove image"
+            >
+              <RemoveImageIcon className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       ))}
 
-      {/* Upload Button */}
       {images.length < maxImages && (
-        <label className="flex items-center justify-center border border-dashed rounded-md w-full h-[400px] bg-gray-100 hover:bg-gray-200 transition cursor-pointer">
-          <AddImageIcon className="w-10 h-10 text-gray-500" />
-          <input type="file" accept="image/*" className="hidden" onChange={handleAddImage} />
+        <label className="aspect-square border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 transition-colors cursor-pointer flex flex-col items-center justify-center gap-2">
+          <AddImageIcon className="w-8 h-8 text-gray-400" />
+          <span className="text-sm text-gray-500">Add Image</span>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={onAddImage}
+            className="hidden"
+          />
         </label>
       )}
     </div>
   );
-};
+});

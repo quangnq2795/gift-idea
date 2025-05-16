@@ -14,7 +14,7 @@ interface ProductViewModeProviderProps {
 }
 
 export const ProductViewModeProvider: React.FC<ProductViewModeProviderProps> = ({ children }) => {
-  const [viewMode, setViewMode] = useState<ViewMode>("normal");
+  const [viewMode, setViewMode] = useState<ViewMode>("edit");
 
   return (
     <ProductViewModeContext.Provider value={{ viewMode, setViewMode }}>

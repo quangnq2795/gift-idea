@@ -4,15 +4,8 @@ import { ImageGrid3 } from "./ImageGrid3";
 import { ImageGrid4 } from "./ImageGrid4";
 import { ImageGridEdit } from "./ImageGridEdit";
 import { ProductImages } from "@/types";
-import { useProductViewMode } from "@/components/product/ProductViewModeContext";
 
 export const ImageGrid: React.FC<ProductImages> = ({ images }) => {
-  const { viewMode } = useProductViewMode();
-  const isEditMode = viewMode === "edit";
-
-  if (isEditMode) {
-    return <ImageGridEdit images={images} />;
-  }
 
   if (!images || images.length === 0) {
     return <div className="text-gray-500">No images available.</div>;
