@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, memo } from "react";
-import { Avatar } from "@heroui/react";
+import { Avatar, Chip } from "@heroui/react";
 import { ShopeeIcon, FacebookIcon } from "@/components/icons";
 import Link from "next/link";
 import { ImageGridEdit } from "@/components/product/basic_temp/ImageGrid/ImageGridEdit";
@@ -16,6 +16,7 @@ export interface ProductDetailEditProps {
     images: { id: number; url: string; alt: string }[];
     shopee?: string;
     facebook?: string;
+    hashtags?: string[];
   };
   onUpdate: (updates: Partial<ProductDetailEditProps["product"]>) => void;
 }
@@ -96,6 +97,8 @@ export const ProductDetailEdit = memo(function ProductDetailEdit({
   const [shopeeLink, setShopeeLink] = useState(product.shopee || "");
   const [facebookLink, setFacebookLink] = useState(product.facebook || "");
   const [images, setImages] = useState(product.images || []);
+  const [hashtags, setHashtags] = useState<string[]>(product.hashtags || []);
+  const [newHashtag, setNewHashtag] = useState("");
   const maxImages = 4;
 
   // Sync local state with product prop
@@ -104,6 +107,7 @@ export const ProductDetailEdit = memo(function ProductDetailEdit({
     setShopeeLink(product.shopee || "");
     setFacebookLink(product.facebook || "");
     setImages(product.images || []);
+    setHashtags(product.hashtags || []);
   }, [product]);
 
   // Memoized handlers
@@ -155,6 +159,38 @@ export const ProductDetailEdit = memo(function ProductDetailEdit({
     };
     reader.readAsDataURL(file);
   }, [images.length, maxImages, onUpdate]);
+
+  const handleAddHashtag = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && newHashtag.trim()) {
+      e.preventDefault();
+      const tag = newHashtag.trim().toLowerCase();
+      
+      // Check character limit
+      if (tag.length > 30) {
+        alert('Hashtag cannot exceed 30 characters');
+        return;
+      }
+
+      // Check total hashtags limit
+      if (hashtags.length >= 5) {
+        alert('Maximum 5 hashtags allowed');
+        return;
+      }
+
+      if (!hashtags.includes(tag)) {
+        const updatedTags = [...hashtags, tag];
+        setHashtags(updatedTags);
+        onUpdate({ hashtags: updatedTags });
+      }
+      setNewHashtag("");
+    }
+  }, [hashtags, newHashtag, onUpdate]);
+
+  const handleRemoveHashtag = useCallback((tagToRemove: string) => {
+    const updatedTags = hashtags.filter(tag => tag !== tagToRemove);
+    setHashtags(updatedTags);
+    onUpdate({ hashtags: updatedTags });
+  }, [hashtags, onUpdate]);
 
   return (
     <div className="flex justify-center p-4">
@@ -209,6 +245,38 @@ export const ProductDetailEdit = memo(function ProductDetailEdit({
             onRemoveImage={handleRemoveImage}
             onAddImage={handleAddImage}
           />
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-gray-700">
+            Hashtags ({hashtags.length}/5)
+          </label>
+          <div className="flex flex-wrap gap-2 p-2 border rounded-md min-h-[42px]">
+            {hashtags.map((tag) => (
+              <Chip
+                key={tag}
+                onClose={() => handleRemoveHashtag(tag)}
+                variant="flat"
+                color="primary"
+              >
+                {tag}
+              </Chip>
+            ))}
+            {hashtags.length < 5 && (
+              <input
+                type="text"
+                value={newHashtag}
+                onChange={(e) => setNewHashtag(e.target.value)}
+                onKeyDown={handleAddHashtag}
+                placeholder="Add hashtag and press Enter (max 30 chars)"
+                className="flex-1 min-w-[200px] outline-none text-sm"
+                maxLength={30}
+              />
+            )}
+          </div>
+          <p className="text-xs text-gray-500">
+            Press Enter to add a hashtag. Maximum 5 hashtags, 30 characters per hashtag.
+          </p>
         </div>
       </div>
     </div>

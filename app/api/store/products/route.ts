@@ -19,16 +19,20 @@ const imgSrcArray = [
   "https://i.pinimg.com/474x/02/35/21/023521dabb7cd66f20f9ff2f2501745b.jpg"
 ];
 
-// Generate a list of 200 items
-const allItems: StoreProductItemProps[] = Array.from({ length: 200 }, (_, index) => {
-  return {
-    imgSrc: imgSrcArray[index % imgSrcArray.length],
-    productId: (index + 1).toString(),
-  };
-});
+// Maximum number of products
+export const MAX_PRODUCTS = 100; // Set to 1 for testing single product case
 
 // Number of items per page
 const ITEMS_PER_PAGE = 30;
+
+// Generate mock data
+const allItems: StoreProductItemProps[] = Array.from({ length: MAX_PRODUCTS }, (_, index) => {
+  return {
+    imgSrc: imgSrcArray[index % imgSrcArray.length],
+    productId: (index + 1).toString(),
+    storeId: "mock-store-id"
+  };
+});
 
 // Handle GET requests with pagination
 export async function GET(req: Request) {
@@ -42,6 +46,6 @@ export async function GET(req: Request) {
 
   return NextResponse.json({
     data: paginatedItems,
-    hasMore: endIndex < allItems.length, // Check if more data is available
+    hasMore: endIndex < MAX_PRODUCTS, // Check if more data is available
   });
 }

@@ -36,7 +36,7 @@ export const Navbar = () => {
           <NavbarContent className="flex flex-grow">
             <div className="flex w-full gap-6">
               <div className="flex justify-end items-center w-[20%]">
-                <NextLink href={`/store/${userId}`} onClick={handleStoreClick}>
+                <NextLink href={`/mystore/${userId}`} onClick={handleStoreClick}>
                   <StoreIcon />
                 </NextLink>
               </div>

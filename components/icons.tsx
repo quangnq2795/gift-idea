@@ -182,3 +182,26 @@ export const CloseIcon: React.FC<{ className?: string }> = ({ className }) => (
     <path d="M6 6l12 12" />
   </svg>
 );
+
+export const AddIcon: React.FC<IconSvgProps> = ({
+  size = 24,
+  width,
+  height,
+  ...props
+}) => (
+  <svg
+    width={width || size}
+    height={height || size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    {...props}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M12 4v16m8-8H4"
+    />
+  </svg>
+);

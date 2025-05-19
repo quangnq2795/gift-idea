@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { StoreProductItem, StoreProductItemProps } from "./StoreProductItem";
+import { StoreProductItem, StoreProductAddItem } from "./StoreProductItem";
+import type { StoreProductItemProps } from "./StoreProductItem";
 
 // Debounce function to limit the number of resize events
 const debounce = (func: Function, delay: number) => {
@@ -45,17 +46,30 @@ export default function StoreProduct({ storeId }: { storeId: string }) {
     // Function to distribute items across columns
     const distributeItems = (items: StoreProductItemProps[], numColumns: number) => {
         const columns: StoreProductItemProps[][] = Array.from({ length: numColumns }, () => []);
+        
+        // Nếu số sản phẩm ít hơn số cột, chỉ phân phối vào đúng 1 cột (bắt đầu từ cột 1)
+        if (items.length <= numColumns) {
+            items.forEach((item, idx) => {
+                // Đảm bảo mỗi sản phẩm chỉ vào 1 cột duy nhất
+                columns[(idx + 1) % numColumns] = [item];
+            });
+            return columns;
+        }
+
+        // Phân phối đều các sản phẩm vào các cột, bắt đầu từ cột 1
         items.forEach((item, index) => {
-            const columnIndex = index % numColumns;
+            const columnIndex = (index + 1) % numColumns;
             columns[columnIndex].push(item);
         });
+
         return columns;
     };
 
     const columns = distributeItems(giftList, numColumns);
+    console.log("Column counts:", columns.map(col => col.length));
 
     const fetchData = async () => {
-        if (!storeId) return; // Prevent API call if storeId is missing
+        if (!storeId) return;
 
         try {
             const response = await fetch(`/api/store/products?sid=${storeId}&page=${page}`, {
@@ -70,12 +84,12 @@ export default function StoreProduct({ storeId }: { storeId: string }) {
             }
 
             const { data: newItems, hasMore: moreAvailable } = await response.json();
+            console.log("Fetched data:", newItems);
 
             if (!newItems || newItems.length === 0) {
                 setHasMore(false);
             } else {
-                setGiftList((prevItems) => [...prevItems, ...newItems]);
-                setPage((prevPage) => prevPage + 1);
+                setGiftList((prevItems) => page === 0 ? newItems : [...prevItems, ...newItems]);
                 setHasMore(moreAvailable);
             }
         } catch (error) {
@@ -83,23 +97,34 @@ export default function StoreProduct({ storeId }: { storeId: string }) {
         }
     };
 
+    // Khi storeId thay đổi, reset state và set page về 0
     useEffect(() => {
-        setGiftList([]); // Reset product list when storeId changes
-        setPage(0); // Reset page count
-        setHasMore(true); // Reset hasMore flag
+        setGiftList([]);
+        setPage(0);
+        setHasMore(true);
+    }, [storeId]);
+
+    // Khi page hoặc storeId thay đổi, fetch dữ liệu
+    useEffect(() => {
         fetchData();
-    }, [storeId]); // Re-fetch when storeId changes
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page, storeId]);
 
     return (
         <InfiniteScroll
             dataLength={giftList.length}
-            next={fetchData}
+            next={() => setPage((prev) => prev + 1)}
             hasMore={hasMore}
             loader={<h4>Loading...</h4>}
         >
             <div className="flex justify-between gap-5">
                 {columns.length > 0 && columns.map((column, columnIndex) => (
-                    <div key={columnIndex} className="flex flex-col gap-3">
+                    <div key={columnIndex} className="flex-1 flex flex-col gap-3">
+                        {columnIndex === 0 && (
+                            <div className="pb-3">
+                                <StoreProductAddItem storeId={storeId} />
+                            </div>
+                        )}
                         {column.map((item, index) => (
                             <div key={index} className="pb-3">
                                 <StoreProductItem imgSrc={item.imgSrc} productId={item.productId} storeId={storeId}/>
