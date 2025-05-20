@@ -198,9 +198,17 @@ export default function CreateStorePage() {
                 <div>
                     <Textarea
                         value={storeDescription}
-                        onChange={(e) => setStoreDescription(e.target.value)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value.length <= 1000) {
+                            setStoreDescription(value);
+                          } else {
+                            setStoreDescription(value.slice(0, 1000));
+                          }
+                        }}
                         placeholder="Giới thiệu về cửa hàng của bạn..."
-                        minRows={8}
+                        minRows={10}
+                        maxRows={10}
                         className="w-full"
                     />
                 </div>

@@ -2,6 +2,7 @@ import { Tabs, Tab, Card, CardBody } from "@heroui/react";
 import StoreProduct from "./StoreProduct";
 import { StoreStatistical } from "./StoreStatistical";
 import { StorePanel } from "./StorePanel";
+import { StoreDescription } from "./StoreDescription";
 import { useMemo } from "react";
 
 export default function Store({ storeId }: { storeId: string }) {
@@ -31,8 +32,9 @@ export default function Store({ storeId }: { storeId: string }) {
       <div className="mb-4">
         <StorePanel storeId={storeId} />
       </div>
+      <StoreDescription storeId={storeId} />
       <div>
-        <Tabs aria-label="Store Tabs">
+        <Tabs aria-label="Store Tabs" radius="none">
           {tabs.map(({ id, label, content }) => (
             <Tab key={id} title={label}>
               <Card>
