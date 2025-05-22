@@ -86,7 +86,7 @@ export default function ScrollBar() {
                     <div key={columnIndex} className="flex flex-col gap-4">
                         {column.map((item, index) => (
                             <div key={index}>
-                                <ScrollBarItem imgSrc={item.imgSrc} productId={item.productId} />
+                                <ScrollBarItem imgSrc={item.imgSrc} productId={item.productId} title={item.title}/>
                             </div>
                         ))}
                     </div>
