@@ -205,3 +205,34 @@ export const AddIcon: React.FC<IconSvgProps> = ({
     />
   </svg>
 );
+
+export const BookmarkIcon = ({ active = false, className = "w-5 h-5", ...props }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-5-7 5V5z"
+      fill={active ? "#ef4444" : "none"}
+      stroke={active ? "#ef4444" : "#3b82f6"}
+    />
+  </svg>
+);
+
+export const SettingsIcon = ({ className = "w-5 h-5", ...props }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M11.049 2.927c.3-1.14 1.952-1.14 2.252 0a1.724 1.724 0 002.573 1.01c.993-.64 2.23.297 1.89 1.39a1.724 1.724 0 001.516 2.36c1.19.09 1.67 1.64.8 2.36a1.724 1.724 0 000 2.62c.87.72.39 2.27-.8 2.36a1.724 1.724 0 00-1.516 2.36c.34 1.093-.897 2.03-1.89 1.39a1.724 1.724 0 00-2.573 1.01c-.3 1.14-1.952 1.14-2.252 0a1.724 1.724 0 00-2.573-1.01c-.993.64-2.23-.297-1.89-1.39a1.724 1.724 0 00-1.516-2.36c-1.19-.09-1.67-1.64-.8-2.36a1.724 1.724 0 000-2.62c-.87-.72-.39-2.27.8-2.36a1.724 1.724 0 001.516-2.36c-.34-1.093.897-2.03 1.89-1.39.996.64 2.23-.297 2.573-1.01z"
+    />
+    <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth={2} />
+  </svg>
+);
+
+export const LogoutIcon = ({ className = "w-5 h-5", ...props }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" />
+  </svg>
+);

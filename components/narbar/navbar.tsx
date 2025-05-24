@@ -10,6 +10,7 @@ import NextLink from "next/link";
 import { Logo, StoreIcon } from "@/components/icons";
 import { NarBarSeachInput } from "./narbar-search/narbar-search-input";
 import { NavbarUser } from "./narbar-user/narbar-user";
+import { useState } from "react";
 
 export const Navbar = () => {
   //const { userId, isLoading } = useUser();
@@ -35,7 +36,7 @@ export const Navbar = () => {
 
           <NavbarContent className="flex flex-grow">
             <div className="flex w-full gap-6">
-              <div className="flex justify-end items-center w-[20%]">
+              <div className="flex justify-end items-center w-[20%] gap-2">
                 <NextLink href={`/mystore/${userId}`} onClick={handleStoreClick}>
                   <StoreIcon />
                 </NextLink>
@@ -51,7 +52,7 @@ export const Navbar = () => {
             </div>
           </NavbarContent>
 
-          <NavbarContent className="max-w-fit">
+          <NavbarContent className="max-w-fit flex items-center gap-6 relative">
             <NavbarUser />
           </NavbarContent>
         </NextUINavbar>
