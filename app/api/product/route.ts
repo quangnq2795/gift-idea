@@ -29,8 +29,10 @@ export async function GET() {
 
       ],
       video: "https://youtu.be/ODPZl45OxgU",
-      facebook: "https://www.facebook.com/quoc.quang.3/",
-      shopee: "https://shopee.vn/"
+      fanpage: "https://www.facebook.com/quoc.quang.3/",
+      shopee: "https://shopee.vn/",
+      website: "https://www.pinterest.com/",
+      contact: true
     };
 
     // Return JSON Response

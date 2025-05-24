@@ -3,7 +3,7 @@ import { Avatar } from "@heroui/react";
 import { ImageGrid } from "./ImageGrid/ImageGrid";
 import { Description } from "./Description";
 import Link from "next/link";
-import { ShopeeIcon, FacebookIcon, BookmarkIcon } from "@/components/icons";
+import { ShopeeIcon, FacebookIcon, BookmarkIcon, ZaloIcon } from "@/components/icons";
 
 export interface ProductDetailProps {
   product: {
@@ -14,8 +14,10 @@ export interface ProductDetailProps {
     description: string;
     price: number;
     images: { id: number; url: string; alt: string }[];
+    website?: string;
+    fanpage?: string;
     shopee?: string;
-    facebook?: string;
+    contact?: string;
   };
 }
 
@@ -59,9 +61,31 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
           {/* Description */}
           <Description description={product.description} />
 
-          {/* Social Links (Shopee & Facebook) */}
-          {(product.shopee || product.facebook) && (
-            <div className="flex space-x-4">
+          {/* Social Links (Website, Fanpage, Shopee, Tư vấn) */}
+          {(product.website || product.fanpage || product.shopee || product.contact) && (
+            <div className="flex flex-wrap gap-3">
+              {product.website && (
+                <a
+                  href={product.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-gray-500 to-gray-700 text-white rounded-md text-sm font-medium hover:from-gray-700 hover:to-gray-800 transition-all transform hover:scale-105 shadow-md"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 0c2.21 0 4 4.03 4 9s-1.79 9-4 9-4-4.03-4-9 1.79-9 4-9zm0 0v18" /></svg>
+                  <span>Website</span>
+                </a>
+              )}
+              {product.fanpage && (
+                <a
+                  href={product.fanpage}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-md text-sm font-medium hover:from-blue-700 hover:to-blue-800 transition-all transform hover:scale-105 shadow-md"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                  <span>Fanpage</span>
+                </a>
+              )}
               {product.shopee && (
                 <a
                   href={product.shopee}
@@ -70,18 +94,17 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
                   className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-md text-sm font-medium hover:from-orange-600 hover:to-orange-700 transition-all transform hover:scale-105 shadow-md"
                 >
                   <ShopeeIcon className="w-5 h-5" />
-                  <span>Buy on Shopee</span>
+                  <span>Shopee</span>
                 </a>
               )}
-              {product.facebook && (
+              {product.contact && (
                 <a
-                  href={product.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-md text-sm font-medium hover:from-blue-700 hover:to-blue-800 transition-all transform hover:scale-105 shadow-md"
+                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-md text-sm font-medium hover:from-blue-500 hover:to-blue-700 transition-all transform hover:scale-105 shadow-md"
                 >
-                  <FacebookIcon className="w-5 h-5" />
-                  <span>View on Facebook</span>
+                  <ZaloIcon className="w-5 h-5" />
+                  <span>Tư vấn</span>
                 </a>
               )}
             </div>
